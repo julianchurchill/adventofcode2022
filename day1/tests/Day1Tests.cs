@@ -3,6 +3,7 @@ using FluentAssertions;
 using System.Linq;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace day1;
 
@@ -33,21 +34,44 @@ public class Day1Tests
     }
 
     [Test]
-    public void GoldenInputTest()
+    public void GoldenInputTestPart1()
     {
         line = 0;
         var input = File.ReadAllText("../../../input.txt");
         FindHighestCalories(input).Should().Be(66306);
     }
 
+    [Test]
+    public void GoldenInputTestPart2()
+    {
+        line = 0;
+        var input = File.ReadAllText("../../../input.txt");
+        FindTop3HighestCalories(input).Should().Be(195292);
+    }
+
+    int FindTop3HighestCalories(string input)
+    {
+        var calories = FindAllCalories(input);
+        if(calories.Count() == 0)
+            return 0;
+        return calories.OrderByDescending(x => x).Take(3).Sum();
+    }
+
     int FindHighestCalories(string input)
     {
-        if(string.IsNullOrEmpty(input))
+        var calories = FindAllCalories(input);
+        if(calories.Count() == 0)
             return 0;
+        return calories.Max();
+    }
+
+    IEnumerable<int> FindAllCalories(string input)
+    {
+        if(string.IsNullOrEmpty(input))
+            return new List<int>();
 
         return splitByElf(input)
-            .Select(calculateTotalCalories)
-            .Max();
+            .Select(calculateTotalCalories);
     }
 
     string[] splitByElf(string input)
