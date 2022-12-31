@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
@@ -66,30 +67,40 @@ public class Day2Tests
         if(string.IsNullOrEmpty(input))
             return 0;
 
-        if(input.StartsWith(RockThem))
-        {
-            if(input.EndsWith(ScissorsUs))
-                return ScissorsValue;
-            if(input.EndsWith(PaperUs))
-                return WinValue + PaperValue;
-            return DrawValue + RockValue;
-        }
-        if(input.StartsWith(PaperThem))
-        {
-            if(input.EndsWith(RockUs))
-                return RockValue;
-            if(input.EndsWith(ScissorsUs))
-                return WinValue + ScissorsValue;
-            return DrawValue + PaperValue;
-        }
-        if(input.StartsWith(ScissorsThem))
-        {
-            if(input.EndsWith(PaperUs))
-                return PaperValue;
-            if(input.EndsWith(RockUs))
-                return WinValue + RockValue;
-            return DrawValue + ScissorsValue;
-        }
+        return GetValueOfOurPlayedItem(input) + GetWinLossDrawValue(input);
+    }
+
+    private int GetWinLossDrawValue(string input)
+    {
+        if(input.StartsWith(RockThem) && input.EndsWith(ScissorsUs))
+            return LossValue;
+        if(input.StartsWith(RockThem) && input.EndsWith(PaperUs))
+            return WinValue;
+        if(input.StartsWith(RockThem) && input.EndsWith(RockUs))
+            return DrawValue;
+        if(input.StartsWith(PaperThem) && input.EndsWith(RockUs))
+            return LossValue;
+        if(input.StartsWith(PaperThem) && input.EndsWith(ScissorsUs))
+            return WinValue;
+        if(input.StartsWith(PaperThem) && input.EndsWith(PaperUs))
+            return DrawValue;
+        if(input.StartsWith(ScissorsThem) && input.EndsWith(PaperUs))
+            return LossValue;
+        if(input.StartsWith(ScissorsThem) && input.EndsWith(RockUs))
+            return WinValue;
+        if(input.StartsWith(ScissorsThem) && input.EndsWith(ScissorsUs))
+            return DrawValue;
+        return 0;
+    }
+
+    private int GetValueOfOurPlayedItem(string input)
+    {
+        if(input.EndsWith(RockUs))
+            return RockValue;
+        if(input.EndsWith(PaperUs))
+            return PaperValue;
+        if(input.EndsWith(ScissorsUs))
+            return ScissorsValue;
         return 0;
     }
 }
