@@ -17,7 +17,7 @@ public class Day2Tests
     [TestCase(RockThem, RockUs, 4)]
     [TestCase(PaperThem, PaperUs, 5)]
     [TestCase(ScissorsThem, ScissorsUs, 6)]
-    public void DrawsAreTheValueOfTheItemPlayedPlus3(string theirPlay, string ourPlay, int expectedScore)
+    public void DrawsAreTheValueOfTheItemPlayedPlus3(char theirPlay, char ourPlay, int expectedScore)
     {
         CalculateTotalScore($"{theirPlay} {ourPlay}").Should().Be(expectedScore);
     }
@@ -25,7 +25,7 @@ public class Day2Tests
     [TestCase(RockThem, ScissorsUs, 3)]
     [TestCase(PaperThem, RockUs, 1)]
     [TestCase(ScissorsThem, PaperUs, 2)]
-    public void ALossIsWorthTheItemPlayed(string theirPlay, string ourPlay, int expectedScore)
+    public void ALossIsWorthTheItemPlayed(char theirPlay, char ourPlay, int expectedScore)
     {
         CalculateTotalScore($"{theirPlay} {ourPlay}").Should().Be(expectedScore);
     }
@@ -33,7 +33,7 @@ public class Day2Tests
     [TestCase(RockThem, PaperUs, 8)]
     [TestCase(PaperThem, ScissorsUs, 9)]
     [TestCase(ScissorsThem, RockUs, 7)]
-    public void AWinIsWorthTheItemPlayedPlus6(string theirPlay, string ourPlay, int expectedScore)
+    public void AWinIsWorthTheItemPlayedPlus6(char theirPlay, char ourPlay, int expectedScore)
     {
         CalculateTotalScore($"{theirPlay} {ourPlay}").Should().Be(expectedScore);
     }
@@ -49,12 +49,12 @@ public class Day2Tests
             .Should().Be(12156);
     }
 
-    private const string RockThem = "A";
-    private const string PaperThem = "B";
-    private const string ScissorsThem = "C";
-    private const string RockUs = "X";
-    private const string PaperUs = "Y";
-    private const string ScissorsUs = "Z";
+    private const char RockThem = 'A';
+    private const char PaperThem = 'B';
+    private const char ScissorsThem = 'C';
+    private const char RockUs = 'X';
+    private const char PaperUs = 'Y';
+    private const char ScissorsUs = 'Z';
     private const int RockValue = 1;
     private const int PaperValue = 2;
     private const int ScissorsValue = 3;
