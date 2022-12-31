@@ -70,36 +70,50 @@ public class Day2Tests
         return GetValueOfOurPlayedItem(input) + GetWinLossDrawValue(input);
     }
 
+    private enum RoShamBo 
+    {
+        Rock,
+        Paper,
+        Scissors
+    }
+
+    private RoShamBo ToRoShamBo(char item)
+    {
+        if(item == RockThem || item == RockUs) return RoShamBo.Rock;
+        if(item == PaperThem || item == PaperUs) return RoShamBo.Paper;
+        if(item == ScissorsThem || item == ScissorsUs) return RoShamBo.Scissors;
+        return RoShamBo.Rock;
+    }
+
     private int GetWinLossDrawValue(string input)
     {
-        if(input.StartsWith(RockThem) && input.EndsWith(ScissorsUs))
-            return LossValue;
-        if(input.StartsWith(RockThem) && input.EndsWith(PaperUs))
-            return WinValue;
-        if(input.StartsWith(RockThem) && input.EndsWith(RockUs))
+        RoShamBo theirItem = ToRoShamBo(input.First());
+        RoShamBo ourItem = ToRoShamBo(input.Last());
+        if (theirItem == ourItem)
             return DrawValue;
-        if(input.StartsWith(PaperThem) && input.EndsWith(RockUs))
+        if (theirItem == RoShamBo.Rock && ourItem == RoShamBo.Scissors)
             return LossValue;
-        if(input.StartsWith(PaperThem) && input.EndsWith(ScissorsUs))
-            return WinValue;
-        if(input.StartsWith(PaperThem) && input.EndsWith(PaperUs))
-            return DrawValue;
-        if(input.StartsWith(ScissorsThem) && input.EndsWith(PaperUs))
+        if(theirItem == RoShamBo.Paper && ourItem == RoShamBo.Rock)
             return LossValue;
-        if(input.StartsWith(ScissorsThem) && input.EndsWith(RockUs))
+        if(theirItem == RoShamBo.Scissors && ourItem == RoShamBo.Paper)
+            return LossValue;
+        if(theirItem == RoShamBo.Rock && ourItem == RoShamBo.Paper)
             return WinValue;
-        if(input.StartsWith(ScissorsThem) && input.EndsWith(ScissorsUs))
-            return DrawValue;
+        if(theirItem == RoShamBo.Paper && ourItem == RoShamBo.Scissors)
+            return WinValue;
+        if(theirItem == RoShamBo.Scissors && ourItem == RoShamBo.Rock)
+            return WinValue;
         return 0;
     }
 
     private int GetValueOfOurPlayedItem(string input)
     {
-        if(input.EndsWith(RockUs))
+        RoShamBo ourItem = ToRoShamBo(input.Last());
+        if(ourItem == RoShamBo.Rock)
             return RockValue;
-        if(input.EndsWith(PaperUs))
+        if(ourItem == RoShamBo.Paper)
             return PaperValue;
-        if(input.EndsWith(ScissorsUs))
+        if(ourItem == RoShamBo.Scissors)
             return ScissorsValue;
         return 0;
     }
