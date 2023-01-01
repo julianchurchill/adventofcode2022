@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
@@ -43,7 +44,45 @@ public class Day3Tests
             .Should().Be(7875);
     }
 
-    private object SumPrioritiesOfDuplicateItems(string rucksacks)
+    [TestCase("aa", "aa", "aa", 1)]
+    [TestCase("bb", "bb", "bb", 2)]
+    [TestCase("cc", "cc", "cc", 3)]
+    public void SumPrioritiesOfBadges_SimpleRucksacks(string rucksack1, string rucksack2, string rucksack3, int expectedSum)
+    {
+        SumPrioritiesOfBadges(string.Join("\r\n", rucksack1, rucksack2, rucksack3)).Should().Be(expectedSum);
+    }
+
+    [Test]
+    public void GoldenInputTestPart2()
+    {
+        var input = File.ReadAllText("../../../input.txt");
+        SumPrioritiesOfBadges(input)
+            .Should().Be(2479);
+    }
+
+    private int SumPrioritiesOfBadges(string rucksacks)
+    {
+        if (string.IsNullOrEmpty(rucksacks))
+            return 0;
+        return rucksacks.Split("\r\n")
+            .Chunk(3)
+            .Select(FindBadge)
+            .Select(GetItemPriorityValue)
+            .Sum();
+    }
+
+    private char FindBadge(IEnumerable<string> rucksacks)
+    {
+        return rucksacks
+            .Aggregate((first, second) => 
+            {
+                var v = first.Intersect(second);
+                return string.Concat(v);
+            })
+            .First();
+    }
+
+    private int SumPrioritiesOfDuplicateItems(string rucksacks)
     {
         if (string.IsNullOrEmpty(rucksacks))
             return 0;
