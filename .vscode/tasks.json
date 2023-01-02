@@ -24,7 +24,7 @@
             "type": "promptString",
             // type specific configuration attributes
             "description": "Which project to run the tests for, e.g. day1",
-            "default": "day3"
+            "default": "day4"
         }
     ]
 }
